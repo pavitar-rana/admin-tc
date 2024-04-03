@@ -37,7 +37,7 @@ export default function Home() {
           href="/attendance"
           className="border-gray-700 border p-2 rounded-lg cursor-pointer"
         >
-          Student's Attendance
+          Student{"'"}s Attendance
         </Link>
         <Link
           href="/test"

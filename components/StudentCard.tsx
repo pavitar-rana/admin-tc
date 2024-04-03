@@ -60,7 +60,10 @@ export default function StudentCard({
         </div>{" "}
         {students.map((student) => {
           return (
-            <div className="flex gap-4 bg-white mb-4 rounded-xl">
+            <div
+              key={student.id}
+              className="flex gap-4 bg-white mb-4 rounded-xl"
+            >
               <Input
                 disabled
                 value={`${student.Sname} ${

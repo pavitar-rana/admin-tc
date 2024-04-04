@@ -25,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { toast } from "@/components/ui/use-toast";
 
 export default function AddStudents() {
   const formSchema = z.object({
@@ -42,30 +43,33 @@ export default function AddStudents() {
     profilePic: z.string().min(2),
   });
 
+  const defaultValues = {
+    Sname: "",
+    gender: "",
+    fatherName: "",
+    fatherContact: "",
+    password: "",
+    email: "",
+    phone: "",
+    address: "",
+    course: "",
+    completed: "OnGoing",
+    batch: "",
+    profilePic: "",
+  };
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      Sname: "",
-      gender: "",
-      fatherName: "",
-      fatherContact: "",
-      password: "",
-      email: "",
-      phone: "",
-      address: "",
-      course: "",
-      completed: "OnGoing",
-      batch: "",
-      profilePic: "",
-    },
+    defaultValues: defaultValues,
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // console.log(values);
-
     const result = await axios.post("/api/add-db", values);
-
     console.log(result.data);
+    form.reset(defaultValues);
+    toast({
+      title: "Student Added",
+    });
   }
 
   return (

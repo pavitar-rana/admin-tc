@@ -16,7 +16,7 @@ export async function GET(req: Request) {
     );
 
     console.log(result);
-    console.log("Got students successfully");
+    console.log("Got students successfully ");
 
     return new Response(JSON.stringify(result));
   } catch (e) {

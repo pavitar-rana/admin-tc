@@ -6,91 +6,53 @@ import axios from "axios";
 import { Button } from "@/components/ui/button";
 
 import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Check } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 
-export default function Attendance() {
-  const [batch, setBatch] = useState<string>("");
+export default function Topics() {
   const [course, setCourse] = useState<string>("");
   const [topic, setTopic] = useState<string>("");
   const [date, setDate] = useState<string>(new Date().toDateString());
+  const [subtopic, setSubtopic] = useState<string>("");
+  // const [allStudents, setAllStudents] = useState<any[]>([{}]);
 
-  const [allStudents, setAllStudents] = useState<any[]>([{}]);
-
-  const [totalMarks, setTotalMarks] = useState<number>(0);
-  const [totalMarksP, setTotalMarksP] = useState<number>(0);
-  const [totalInternalPM, setTotalInternalPM] = useState<number>(0);
-  const [obtainedMarks, setObtainedMarks] = useState<number | undefined>(
-    undefined
-  );
-  const [practicalMarks, setPracticalMarks] = useState<number | undefined>(
-    undefined
-  );
-  const [internalMarks, setInternalMarks] = useState<number | undefined>(
-    undefined
-  );
-
+  const [faculty, setFaculty] = useState<string>("");
+  const [content, setContent] = useState<string>("");
   const { toast } = useToast();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await axios.get("/api/get-students");
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const result = await axios.get("/api/get");
 
-        var data = result.data;
-        // fileter sudent where batch is batch and course is course
-        data = data.filter((student: any) => {
-          return student.batch === batch && student.course === course;
-        });
+  //       setAllStudents(result.data);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
 
-        setAllStudents(result.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  // Define form schema
-  //   CREATE TABLE tests (
-  // id INT NOT NULL,
-  // Sname VARCHAR(255) NOT NULL,
-  // batch VARCHAR(255) NOT NULL,
-  // course VARCHAR(255) NOT NULL,
-  // topic VARCHAR(255) NOT NULL,
-  // totalMarks INT NOT NULL,
-  // obtainedMarks INT NOT NULL,
-  // internalMarks INT NOT NULL,
-  // practicalMarks INT NOT NULL,
-  // totalMarksP INT NOT NULL,
-  // totalInternalPM INT NOT NULL,
-  // date DATE NOT NULL,
-  // present BOOLEAN NOT NULL DEFAULT false,
-  // PRIMARY KEY (id, date)
-  //   );
-  // `);
+  //   fetchData();
+  // }, []);
 
   return (
     <div>
       <div className="flex justify-center mt-3">
-        <div className="text-[72px]">Test</div>
+        <div className="text-[72px]">Topics Covered</div>
       </div>
       <div className="flex justify-center mt-5 ">
         <div className="w-[80vw] flex flex-col gap-y-5">
-          <Input
-            className="bg-white rounded-xl p-5"
-            type="text"
-            value={date}
-            onChange={(e) => {
-              setDate(e.target.value);
-            }}
-          />
           {/* for topic */}
           <div className="grid xl:grid-cols-3 grid-cols-1 gap-5">
+            <Input
+              className="bg-white rounded-xl p-5"
+              type="text"
+              value={date}
+              onChange={(e) => {
+                setDate(e.target.value);
+              }}
+            />
             <Input
               className="bg-white rounded-xl p-5"
               type="text"
@@ -108,105 +70,61 @@ export default function Attendance() {
                 setCourse(e.target.value);
               }}
             />
-            {/* for batch */}
+            {/* for Subtopic */}
             <Input
               className="bg-white rounded-xl p-5"
               type="text"
-              placeholder="Batch"
+              placeholder="Subtopic"
               onChange={(e) => {
-                setBatch(e.target.value);
+                setSubtopic(e.target.value);
               }}
             />
-            {/* for total marks */}
+            {/* for faculty */}
             <Input
               className="bg-white rounded-xl p-5"
-              type="number"
-              placeholder="Total Marks"
+              type="text"
+              placeholder="Faculty"
               onChange={(e) => {
-                setTotalMarks(parseInt(e.target.value));
+                setFaculty(e.target.value);
               }}
             />
-            {/* total marks p */}
+            {/* for content */}
             <Input
               className="bg-white rounded-xl p-5"
-              type="number"
-              placeholder="Total Marks P"
+              type="text"
+              placeholder="Content"
               onChange={(e) => {
-                setTotalMarksP(parseInt(e.target.value));
+                setContent(e.target.value);
               }}
             />
-            {/* total internal pm */}
-            <Input
-              className="bg-white rounded-xl p-5"
-              type="number"
-              placeholder="Total Internal PM"
-              onChange={(e) => {
-                setTotalInternalPM(parseInt(e.target.value));
+          </div>
+          <div className="flex justify-center">
+            <Button
+              onClick={() => {
+                axios.post("/api/add-topics", {
+                  course: course,
+                  topic: topic,
+                  subtopic: subtopic,
+                  date: date,
+                  content: content,
+                  faculty: faculty,
+                });
+
+                toast({
+                  title: "Topic added",
+                });
               }}
-            />
+            >
+              Submit
+            </Button>
           </div>
         </div>
       </div>
       <div className="flex justify-center mt-10">
         <div className="w-[80vw]">
-          {/* <StudentCard
-            students={allStudents}
-            totalMarks={totalMarks}
-            totalMarksP={totalMarksP}
-            totalInternalPM={totalInternalPM}
-          /> */}
           <div>
             <div>
-              <div className="flex gap-4 bg-white mb-4 rounded-xl">
-                <Input
-                  disabled
-                  placeholder={"Student Name"}
-                  className="bg-white rounded-xl p-5 border-none w-auto"
-                />
-                <div className="bg-transparent w-full flex">
-                  <Input
-                    disabled
-                    placeholder="Obtained Marks"
-                    className="bg-white rounded-xl p-5 border-none"
-                  />
-                  <Input
-                    disabled
-                    placeholder="Total Marks"
-                    className="bg-white rounded-xl p-5 border-none"
-                  />
-                </div>
-                <div className="bg-transparent w-full flex">
-                  <Input
-                    disabled
-                    placeholder="Practical Marks"
-                    className="bg-white rounded-xl p-5 border-none"
-                  />
-                  <Input
-                    disabled
-                    placeholder="Total Marks Practical"
-                    className="bg-white rounded-xl p-5 border-none"
-                  />
-                </div>
-                <div className="bg-transparent w-full flex justify-center">
-                  <Input
-                    disabled
-                    placeholder="Internal Marks"
-                    className="bg-white rounded-xl p-5 border-none"
-                  />
-                  <Input
-                    disabled
-                    placeholder="Total Internal PM"
-                    className="bg-white rounded-xl p-5 border-none"
-                  />
-                </div>
-
-                <div className="">
-                  <Button variant="link" className="bg-white text-gray-400">
-                    DONE
-                  </Button>
-                </div>
-              </div>{" "}
-              {allStudents.map((student) => {
+              {/* {allStudents.map((student) => {
                 return (
                   <div
                     key={student.id}
@@ -338,7 +256,7 @@ export default function Attendance() {
                     </div>
                   </div>
                 );
-              })}
+              })} */}
             </div>
           </div>
         </div>

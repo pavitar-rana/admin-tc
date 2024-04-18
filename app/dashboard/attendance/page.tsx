@@ -137,9 +137,9 @@ export default function Attendance() {
   }
 
   return (
-    <div>
+    <div className="flex justify-center flex-col items-center w-full">
       <div className="flex justify-center mt-3">
-        <div className="text-[72px]">Attendance</div>
+        <div className="text-[72px] ">Attendance</div>
         {/* <input type="text" value={selectedId} name="" id="" /> */}
       </div>
 

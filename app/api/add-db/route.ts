@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     .promise();
 
   try {
-    const {
+    var {
       Sname,
       gender,
       fatherName,
@@ -25,6 +25,8 @@ export async function POST(req: Request) {
       batch,
       profilePic,
     } = await req.json();
+
+    course = course.toLowerCase().replace(/\s/g, "");
 
     // const [result] = await pool.execute(
     //   "INSERT INTO students (poll_title, poll_category, start_date, end_date, min_reward, max_reward) VALUES (?, ?, ?, ?, ?, ?)",

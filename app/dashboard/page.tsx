@@ -73,7 +73,7 @@ export default function AddStudents() {
   }
 
   return (
-    <div>
+    <div className="flex justify-center flex-col items-center w-full">
       <div className="flex justify-center mt-3">
         <div className="text-[72px]">Add Students</div>
       </div>

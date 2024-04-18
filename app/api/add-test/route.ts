@@ -12,7 +12,6 @@ export async function POST(req: Request) {
 
   try {
     var {
-      id,
       Sname,
       batch,
       course,
@@ -51,9 +50,8 @@ export async function POST(req: Request) {
     //   );
 
     const [result] = await pool.execute(
-      "INSERT INTO tests (id, Sname, batch, course, topic, totalMarks, obtainedMarks, internalMarks, practicalMarks, totalMarksP, totalInternalPM, date, present) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO tests (Sname, batch, course, topic, totalMarks, obtainedMarks, internalMarks, practicalMarks, totalMarksP, totalInternalPM, date, present) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
       [
-        id,
         Sname,
         batch,
         course,
